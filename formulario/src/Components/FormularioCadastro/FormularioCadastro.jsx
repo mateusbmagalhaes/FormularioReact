@@ -4,7 +4,7 @@ import DadosEntrega from "./DadosEntrega";
 import DadosPessoais from "./DadosPessoais";
 import DadosUsuario from "./DadosUsuario";
 
-function FormularioCadastro({ enviarForm, validarCpf }) {
+function FormularioCadastro({ enviarForm }) {
   const [etapaAtual, setEtapaAtual] = useState(0);
   const [dadosColetados, setDados] = useState("");
 
@@ -17,7 +17,7 @@ function FormularioCadastro({ enviarForm, validarCpf }) {
 
   const Formularios = [
     <DadosUsuario aoEnviar={coletarDados} />,
-    <DadosPessoais enviarForm={coletarDados} validarCpf={validarCpf} />,
+    <DadosPessoais enviarForm={coletarDados} />,
     <DadosEntrega aoEnviar={coletarDados} />,
     <Typography variant="h5">Obrigado Pelo Cadastro!</Typography>
   ];//um array de componentes que substitui o switch case para transitar entre telas

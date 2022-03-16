@@ -1,21 +1,27 @@
-import React, { useState } from "react";
-
+import React, { useState, useContext } from "react";
 import { Button, FormControlLabel, TextField, Switch } from "@material-ui/core";
+import validacoesCadastro from "../../Context/ValidacoesCadastro";
+import useErros from "../../hooks/useErros";
 
-function DadosPessoais({ enviarForm, validarCpf }) {
+
+function DadosPessoais({ enviarForm }) {
   const [nome, setNome] = useState("");
   const [sobrenome, setsobrenome] = useState("");
   const [cpf, setCpf] = useState("");
   const [promocoes, setPromocoes] = useState(true);
   const [novidades, setNovidades] = useState(false);
-  const [erros, setErros] = useState({ cpf: { valido: true, texto: "" } });
+  const validacoes = useContext(validacoesCadastro);
+
+  const [erros, validarCampos, possoEnviar] = useErros(validacoes);  
 
   return (
     <form
       color="primary"
       onSubmit={(event) => {
         event.preventDefault();
-        enviarForm({ nome, sobrenome, cpf, promocoes, novidades });
+        if (possoEnviar()) {
+          enviarForm({ nome, sobrenome, cpf, promocoes, novidades });
+        }
       }}
     >
       <TextField
@@ -30,6 +36,7 @@ function DadosPessoais({ enviarForm, validarCpf }) {
           setNome(event.target.value);
         }}
         id="name"
+        name="nome"
         label="Nome"
         variant="outlined"
         margin="normal"
@@ -41,6 +48,7 @@ function DadosPessoais({ enviarForm, validarCpf }) {
           setsobrenome(event.target.value);
         }}
         id="lastname"
+        name="sobrenome"
         label="Sobrenome"
         variant="outlined"
         margin="normal"
@@ -51,13 +59,11 @@ function DadosPessoais({ enviarForm, validarCpf }) {
         onChange={(event) => {
           setCpf(event.target.value);
         }}
-        onBlur={(event) => {
-          const isvalido = validarCpf(cpf);
-          setErros({ cpf: isvalido });
-        }}
+        onBlur={validarCampos}
         error={!erros.cpf.valido}
         helperText={erros.cpf.texto}
         id="cpf"
+        name="cpf"
         label="CPF"
         variant="outlined"
         margin="normal"
@@ -94,7 +100,7 @@ function DadosPessoais({ enviarForm, validarCpf }) {
       />
 
       <Button type="submit" variant="contained" color="primary">
-        Cadastrar
+        Proximo
       </Button>
     </form>
   );

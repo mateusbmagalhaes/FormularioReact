@@ -3,13 +3,21 @@ import "./App.css";
 import FormularioCadastro from "./Components/FormularioCadastro/FormularioCadastro";
 
 import { Container, Typography } from "@material-ui/core";
+import {validaCpf, validaSenha} from "./Models/Cadastro";
+import ValidacoesCadasrto from "./Context/ValidacoesCadastro";
 
 class App extends Component {
   render() {
     return (
       <Container component="article" maxWidth="sm">
-        <Typography variant="h3"  component="h1" align="center">Formulário Cadastro</Typography>
-        <FormularioCadastro enviarForm={submitForm} validarCpf={validaCpf}/>
+        <Typography variant="h3" component="h1" align="center">
+          Formulário Cadastro
+        </Typography>
+        <ValidacoesCadasrto.Provider
+          value={{ cpf: validaCpf, senha: validaSenha }}
+        >
+          <FormularioCadastro enviarForm={submitForm} />
+        </ValidacoesCadasrto.Provider>
       </Container>
     );
   }
@@ -17,17 +25,6 @@ class App extends Component {
 
 function submitForm(dados) {
   console.log(dados);
-}
-
-/*por questões didáticas, vamos criar a função de validação de cpf no App.js,
-mas o ideal é que se crie um outro componente de validação*/
-function validaCpf(cpf) {
-  if (cpf.length !== 11) {
-    return {valido:false, texto:"CPF deve ter 11 dígitos"}
-  }
-  else {
-    return {valido:true, texto:""}
-  }
 }
 
 export default App;
