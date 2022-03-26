@@ -15,17 +15,7 @@ function DadosEntrega({aoEnviar}) {
         aoEnviar( {Cep, Endereco, Numero, Estado, Cidade} );
       }
     }>
-      <TextField
-        value={Cep}
-        onChange={(event) => {
-          setCep(event.target.value);
-        }}
-        id="cep"
-        label="CEP"
-        type="number"
-        variant="outlined"
-        margin="normal"
-      />
+      DS
       <TextField
         value={Endereco}
         onChange={(event) => {
